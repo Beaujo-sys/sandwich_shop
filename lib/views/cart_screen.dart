@@ -59,6 +59,18 @@ class _CartScreenState extends State<CartScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 20),
+              if (widget.cart.isEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    children: const [
+                      Text('Your cart is empty.', style: heading2, textAlign: TextAlign.center),
+                      SizedBox(height: 8),
+                      Text('Add sandwiches from the order screen to begin.', style: normalText, textAlign: TextAlign.center),
+                      SizedBox(height: 20),
+                    ],
+                  ),
+                ),
               for (MapEntry<Sandwich, int> entry in widget.cart.items.entries)
                 Column(
                   children: [
