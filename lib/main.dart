@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sandwich_shop/views/order_screen.dart';
 import 'package:sandwich_shop/views/about_screen.dart';
 import 'package:sandwich_shop/views/profile_screen.dart';
+import 'package:sandwich_shop/models/cart.dart';
+import 'package:sandwich_shop/models/cart_scope.dart';
 
 void main() {
   runApp(const App());
@@ -12,13 +14,16 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Sandwich Shop App',
-      home: OrderScreen(maxQuantity: 5),
-      routes: {
-        '/about': (context) => AboutScreen(),
-        '/profile': (context) => const ProfileScreen(),
-      },
+    return CartScope(
+      cart: Cart(),
+      child: MaterialApp(
+        title: 'Sandwich Shop App',
+        home: const OrderScreen(maxQuantity: 5),
+        routes: {
+          '/about': (context) => const AboutScreen(),
+          '/profile': (context) => const ProfileScreen(),
+        },
+      ),
     );
   }
 }

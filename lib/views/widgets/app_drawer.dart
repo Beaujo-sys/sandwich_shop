@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sandwich_shop/models/cart_scope.dart';
+import 'package:sandwich_shop/views/cart_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -24,9 +26,13 @@ class AppDrawer extends StatelessWidget {
             title: const Text('Cart'),
             onTap: () {
               Navigator.pop(context);
-              // Cart requires current cart state from OrderScreen; for simplicity navigate to Order then Cart.
-              Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-              // Consumers can tap View Cart from OrderScreen; advanced shared state could route directly.
+              final cart = CartScope.of(context).cart;
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => CartScreen(cart: cart),
+                ),
+              );
             },
           ),
           ListTile(

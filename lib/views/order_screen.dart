@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sandwich_shop/views/app_styles.dart';
 import 'package:sandwich_shop/views/cart_screen.dart';
-import 'package:sandwich_shop/models/cart.dart';
+import 'package:sandwich_shop/models/cart_scope.dart';
 import 'package:sandwich_shop/models/sandwich.dart';
 import 'package:sandwich_shop/views/widgets/app_scaffold.dart';
 
@@ -17,7 +17,6 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
-  final Cart _cart = Cart();
   final TextEditingController _notesController = TextEditingController();
 
   SandwichType _selectedSandwichType = SandwichType.veggieDelight;
@@ -47,8 +46,9 @@ class _OrderScreenState extends State<OrderScreen> {
         breadType: _selectedBreadType,
       );
 
+      final cart = CartScope.of(context).cart;
       setState(() {
-        _cart.add(sandwich, quantity: _quantity);
+        cart.add(sandwich, quantity: _quantity);
       });
 
       String sizeText;
@@ -77,10 +77,11 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   void _navigateToCartView() {
+    final cart = CartScope.of(context).cart;
     Navigator.push(
       context,
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => CartScreen(cart: _cart),
+        builder: (BuildContext context) => CartScreen(cart: cart),
       ),
     );
   }
@@ -223,7 +224,7 @@ class _OrderScreenState extends State<OrderScreen> {
               ),
               const SizedBox(height: 20),
               Text(
-                'Cart: ${_cart.countOfItems} items - £${_cart.totalPrice.toStringAsFixed(2)}',
+                'Cart: ${CartScope.of(context).cart.countOfItems} items - £${CartScope.of(context).cart.totalPrice.toStringAsFixed(2)}',
                 style: normalText,
                 textAlign: TextAlign.center,
               ),

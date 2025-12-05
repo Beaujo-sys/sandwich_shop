@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sandwich_shop/views/order_screen.dart';
 import 'package:sandwich_shop/views/profile_screen.dart';
 import 'package:sandwich_shop/views/about_screen.dart';
+import 'package:sandwich_shop/models/cart.dart';
+import 'package:sandwich_shop/models/cart_scope.dart';
 
 void main() {
   group('Navigation drawer and responsive navigation', () {
@@ -10,12 +12,15 @@ void main() {
       tester.binding.window.physicalSizeTestValue = const Size(800, 1280);
       tester.binding.window.devicePixelRatioTestValue = 1.0;
 
-      await tester.pumpWidget(MaterialApp(
-        home: const OrderScreen(),
-        routes: {
-          '/about': (context) => const AboutScreen(),
-          '/profile': (context) => const ProfileScreen(),
-        },
+      await tester.pumpWidget(CartScope(
+        cart: Cart(),
+        child: MaterialApp(
+          home: const OrderScreen(),
+          routes: {
+            '/about': (context) => const AboutScreen(),
+            '/profile': (context) => const ProfileScreen(),
+          },
+        ),
       ));
 
       // Open the drawer via AppBar hamburger
@@ -43,12 +48,15 @@ void main() {
       tester.binding.window.physicalSizeTestValue = const Size(1400, 900);
       tester.binding.window.devicePixelRatioTestValue = 1.0;
 
-      await tester.pumpWidget(MaterialApp(
-        home: const OrderScreen(),
-        routes: {
-          '/about': (context) => const AboutScreen(),
-          '/profile': (context) => const ProfileScreen(),
-        },
+      await tester.pumpWidget(CartScope(
+        cart: Cart(),
+        child: MaterialApp(
+          home: const OrderScreen(),
+          routes: {
+            '/about': (context) => const AboutScreen(),
+            '/profile': (context) => const ProfileScreen(),
+          },
+        ),
       ));
       await tester.pumpAndSettle();
 
