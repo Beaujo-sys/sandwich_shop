@@ -77,6 +77,18 @@ class _CartScreenState extends State<CartScreen> {
                             setState(() {
                               widget.cart.remove(entry.key, quantity: 1);
                             });
+                            final qty = widget.cart.getQuantity(entry.key);
+                            final removedCompletely = qty == 0;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  removedCompletely
+                                      ? 'Removed ${entry.key.name} from cart'
+                                      : 'Decreased ${entry.key.name} quantity to $qty',
+                                ),
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
                           },
                         ),
                         Text(
@@ -89,6 +101,13 @@ class _CartScreenState extends State<CartScreen> {
                             setState(() {
                               widget.cart.add(entry.key, quantity: 1);
                             });
+                            final qty = widget.cart.getQuantity(entry.key);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Increased ${entry.key.name} quantity to $qty'),
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
                           },
                         ),
                         const SizedBox(width: 12),
@@ -101,6 +120,12 @@ class _CartScreenState extends State<CartScreen> {
                                 widget.cart.remove(entry.key, quantity: qty);
                               }
                             });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Removed ${entry.key.name} from cart'),
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
                           },
                         ),
                       ],
