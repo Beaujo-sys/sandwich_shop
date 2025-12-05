@@ -66,3 +66,26 @@ Subtasks
 - Add navigation from Order screen to Profile via a button/link.
 - Add a named route for the Profile screen in `main.dart`.
 - Write widget tests to verify form rendering, validation, and that saved values display in the summary.
+
+6. Navigation Drawer and Responsive Navigation
+
+Feature Prompt
+Add a navigation Drawer available from all primary screens. The Drawer should list main navigation targets (Order, Cart, About, Profile). Make navigation responsive: on larger screens, use a side `NavigationRail` instead of a Drawer, keeping AppBar consistent. Reduce redundant code by using shared widgets (`AppDrawer` and `AppScaffold`) to wrap screens and centralize navigation.
+
+User Stories
+- As a user, I can open a Drawer from any screen and navigate to Order, Cart, About, or Profile.
+- As a user on a wide display, I see a persistent side navigation (NavigationRail) instead of a Drawer.
+- As a developer, I want reusable navigation scaffolding to avoid duplicating Drawer code across screens.
+
+Acceptance Criteria
+- Drawer opens from AppBar menu on small/medium screens; entries navigate using named routes.
+- On wide screens (e.g., width >= 900px), show a `NavigationRail` instead of Drawer, with the same destinations.
+- Implement shared `AppDrawer` and `AppScaffold` to include AppBar + responsive navigation.
+- All primary screens (`OrderScreen`, `CartScreen`, `ProfileScreen`) use the shared scaffold.
+- Update widget tests to verify Drawer presence and navigation, plus NavigationRail on wide layouts.
+
+Subtasks
+- Implement `AppDrawer` and responsive `AppScaffold`.
+- Integrate `AppScaffold` into existing screens.
+- Ensure named routes cover all destinations (Order, Cart via `OrderScreen` with cart state; About; Profile).
+- Write widget tests for navigation (Drawer open, route changes) and responsive rail.
