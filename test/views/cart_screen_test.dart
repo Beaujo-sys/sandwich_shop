@@ -41,7 +41,8 @@ void main() {
       expect(find.text('Cart View'), findsOneWidget);
       expect(find.text('Veggie Delight'), findsOneWidget);
       expect(find.text('Footlong on white bread'), findsOneWidget);
-      expect(find.text('Qty: 2 - £22.00'), findsOneWidget);
+      expect(find.text('Qty: 2'), findsOneWidget);
+      expect(find.text('£22.00'), findsOneWidget);
       expect(find.text('Total: £22.00'), findsOneWidget);
     });
 
@@ -72,8 +73,10 @@ void main() {
       expect(find.text('Chicken Teriyaki'), findsOneWidget);
       expect(find.text('Footlong on white bread'), findsOneWidget);
       expect(find.text('Six-inch on wheat bread'), findsOneWidget);
-      expect(find.text('Qty: 1 - £11.00'), findsOneWidget);
-      expect(find.text('Qty: 3 - £21.00'), findsOneWidget);
+      expect(find.text('Qty: 1'), findsOneWidget);
+      expect(find.text('£11.00'), findsOneWidget);
+      expect(find.text('Qty: 3'), findsOneWidget);
+      expect(find.text('£21.00'), findsOneWidget);
       expect(find.text('Total: £32.00'), findsOneWidget);
     });
 
@@ -95,28 +98,7 @@ void main() {
       expect(backButton.onPressed, isNotNull);
     });
 
-    testWidgets('displays logo in app bar', (WidgetTester tester) async {
-      final Cart cart = Cart();
-      final CartScreen cartScreen = CartScreen(cart: cart);
-      final MaterialApp app = MaterialApp(
-        home: cartScreen,
-      );
-
-      await tester.pumpWidget(app);
-
-      final appBarFinder = find.byType(AppBar);
-      expect(appBarFinder, findsOneWidget);
-
-      final appBarImagesFinder = find.descendant(
-        of: appBarFinder,
-        matching: find.byType(Image),
-      );
-      expect(appBarImagesFinder, findsOneWidget);
-
-      final Image logoImage = tester.widget(appBarImagesFinder);
-      expect(
-          (logoImage.image as AssetImage).assetName, 'assets/images/logo.png');
-    });
+    // Logo expectation removed; AppScaffold now shows title text.
 
     testWidgets('displays correct pricing for different sandwich types',
         (WidgetTester tester) async {
@@ -135,7 +117,8 @@ void main() {
 
       await tester.pumpWidget(app);
 
-      expect(find.text('Qty: 3 - £33.00'), findsOneWidget);
+      expect(find.text('Qty: 3'), findsOneWidget);
+      expect(find.text('£33.00'), findsOneWidget);
       expect(find.text('Total: £33.00'), findsOneWidget);
     });
   });
