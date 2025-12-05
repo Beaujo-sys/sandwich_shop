@@ -1,112 +1,45 @@
-# Feature Requirements: Cart Item Modifications
+1. Feature Description and Purpose
+The Cart Modification feature enables users of the Sandwich Shop Flutter app to manage the contents of their cart before checkout. Users can adjust the quantity of each sandwich or remove items. Editing sandwich details (such as bread type or size) is not supported on the cart page; users must add a new item from the order screen if they wish to change sandwich options. This feature aims to provide a flexible and user-friendly shopping experience, ensuring users can easily correct mistakes or change their order without starting over.
 
-## 1. Feature Description and Purpose
-Enable users to modify items directly from the cart screen, including changing quantities, removing items, editing customization options (e.g., bread/extras/sauces), clearing the entire cart, and optionally undoing a recent removal. The purpose is to improve checkout flexibility and accuracy, ensuring the cart reflects the user’s desired configuration while keeping totals and pricing accurate and responsive.
+2. User Stories
+2.1. Adjust Quantity
+As a user, I want to increase or decrease the quantity of a sandwich in my cart, so I can order the exact number I want.
+As a user, I want the cart to automatically remove an item if I decrease its quantity below 1, so my cart never contains items with zero or negative quantity.
 
-### Scope
-- Cart item quantity adjustments
-- Item removal
-- Edit item options
-- Clear entire cart
-- Undo recent removal (optional)
-- Immediate state and total price updates
-- Accessibility and persistence (optional) considerations
+2.2. Remove Item
+As a user, I want to remove a sandwich from my cart with a single action, so I can quickly update my order if I change my mind.
 
-### Out of Scope
-- Payment processing
-- Authentication
-- Inventory limits beyond optional max quantity rules
+2.3. Feedback and UI Responsiveness
+As a user, I want the cart and total price to update immediately when I make changes, so I always see an accurate summary of my order.
+As a user, I want to receive feedback (such as a snackbar) when I remove or update an item, so I know my action was successful.
+As a user, I want to see a clear message if my cart is empty, so I know I need to add items before checking out.
 
----
+3. Acceptance Criteria
+3.1. Quantity Adjustment
+ Each cart item displays "+" and "–" buttons for quantity adjustment.
+ Tapping "+" increases the quantity by 1.
+ Tapping "–" decreases the quantity by 1.
+ If the quantity is reduced below 1, the item is removed from the cart.
+ The total price updates automatically and accurately.
+ The UI updates immediately to reflect changes.
 
-## 2. User Stories
+3.2. Remove Item
+ Each cart item has a "Remove" button (e.g., trash icon).
+ Tapping "Remove" deletes the item from the cart.
+ The total price updates accordingly.
+ A snackbar or similar feedback is shown when an item is removed.
 
-### Subtask A: Change Item Quantity
-- As a user, I want to increase an item’s quantity from the cart so I can buy more of the same sandwich without re-adding it from the order screen.
-- As a user, I want to decrease an item’s quantity from the cart so I can adjust my order without deleting and re-adding the item.
-- As a user, I don’t want to be able to set the quantity to a negative number or accidentally reduce below 1 without clear feedback.
+3.3. General UI and Behavior
+ All changes are reflected immediately in the UI.
+ The cart's total price is always accurate.
+ The cart handles empty states gracefully (e.g., displays a message if empty).
+ The UI prevents negative quantities.
+ User feedback is provided for all cart modification actions.
 
-### Subtask B: Remove Item
-- As a user, I want to remove an item from the cart so I don’t pay for sandwiches I no longer want.
-- As a cautious user, I want an optional confirmation or a simple gesture (like swipe-to-delete) to remove items quickly but safely.
-
-### Subtask C: Edit Item Options
-- As a user, I want to edit the options of a cart item (bread, extras, sauces) so I can fine-tune my sandwich without starting over.
-- As a power user, I want the edited item to reflect accurate pricing immediately and optionally merge with identical items based on product rules.
-
-### Subtask D: Clear Cart
-- As a user, I want a “Clear Cart” action to empty my cart quickly when I change my mind.
-- As a careful user, I want a confirmation prompt to avoid accidental clearing.
-
-### Subtask E: Undo Recent Remove (Optional)
-- As a user, I want a brief “Undo” opportunity after I remove an item so I can easily recover from mistakes.
-
-### Subtask F: State and Totals Feedback
-- As a user, I want the cart subtotal/total to update instantly when I change quantities, edit options, or remove items.
-- As a user, I want to see an empty cart state with messaging and a call-to-action when my cart becomes empty.
-
-### Subtask G: Accessibility and Persistence
-- As a user using assistive technology, I want quantity controls, remove, edit, and clear actions to be accessible via screen readers and have adequate hit targets.
-- As a returning user, I want my cart changes to persist within the session and optionally across app restarts.
-
----
-
-## 3. Acceptance Criteria
-
-### Subtask A: Change Item Quantity
-- Quantity controls (“− [quantity] +”) present on each cart item.
-- Decrement is disabled at quantity 1 or prompts removal; no negative quantities allowed.
-- Increment increases quantity by 1; decrement reduces by 1; quantity reaching 0 removes the item.
-- Cart totals (line totals and overall total) recalculate immediately on change.
-- Respect optional max quantity rules and show feedback if exceeded.
-
-### Subtask B: Remove Item
-- Each item has a visible “Remove” action or supports swipe-to-delete.
-- Removing an item updates the cart immediately and recalculates totals.
-- Optional confirmation dialog configurable by product rules.
-- Empty cart state is displayed when the last item is removed.
-
-### Subtask C: Edit Item Options
-- Each item has an “Edit” action that opens a modal/screen with the same customization controls as the order flow.
-- On save, the item’s options and computed price update; totals recalculate immediately.
-- On cancel, no changes are applied.
-- If edited options match an existing item and product rules require merging, items merge and quantities sum; otherwise, keep separate.
-
-### Subtask D: Clear Cart
-- “Clear Cart” button available in the cart screen.
-- Confirmation dialog required before clearing.
-- On confirm, cart empties, totals reset to 0, and empty state is shown.
-
-### Subtask E: Undo Recent Remove (Optional)
-- After removing an item, show a snackbar/toast “Item removed” with an “Undo” action for a brief period.
-- If “Undo” is tapped within the allowed window, restore the item to its previous position, quantity, and options; totals update accordingly.
-- If timeout elapses or another change occurs that invalidates undo, the removal remains final.
-
-### Subtask F: State Management and Price Calculation
-- Single source of truth (Provider, Riverpod, or Bloc) manages cart state.
-- Data model includes: CartItem { id, name, basePrice, quantity, options, computedPrice }.
-- computedPrice = basePrice + sum(option surcharges); line total = computedPrice * quantity; cart total = sum(line totals) + taxes/fees if applicable.
-- UI reacts to state changes immediately; no stale totals.
-
-### Subtask G: Persistence and Accessibility
-- Changes persist within the session; optionally persisted locally (e.g., SharedPreferences) to restore after restart.
-- All controls labeled for screen readers and meet minimum touch targets.
-- Keyboard navigation and focus states behave predictably in edit modals/screens.
-
-### Validation and Testing
-- Unit tests cover:
-  - Increment/decrement quantity, preventing negatives and handling zero-removal.
-  - Remove item behavior and total recalculation.
-  - Edit options updating computed price and merging logic where applicable.
-  - Clear cart behavior, totals reset, and empty state.
-  - Undo removal restoring item and totals.
-- Manual QA verifies:
-  - Instant UI updates and accurate totals.
-  - Accessibility behavior.
-  - Edge cases: max quantity, identical item merging, undo timing.
-
-### Definition of Done
-- All acceptance criteria satisfied across supported devices.
-- Unit tests implemented and passing in CI.
-- No critical accessibility issues; basic screen reader checks pass.
-- Feature documented in release notes with user guidance.
+4. Subtasks
+Implement "+" and "–" quantity adjustment buttons for each cart item.
+Implement logic to remove an item if its quantity is reduced below 1.
+Add a "Remove" button for each cart item.
+Ensure the total price and UI update immediately after any change.
+Provide user feedback (snackbar) for remove and update actions.
+Handle empty cart states with a clear message.

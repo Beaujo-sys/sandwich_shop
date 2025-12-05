@@ -1,99 +1,39 @@
-# Task: Implement cart item modifications in a Flutter sandwich shop app
+I am building a Flutter app for a sandwich shop. The app has two main pages:
 
-## App Context
-- There are two pages:
-  1. Order screen: users select sandwiches and add them to their cart.
-  2. Cart screen: users view items in their cart and the total price.
-- State: The cart contains a list of items with `id`, `name`, `price`, `quantity`, and optional `options` (e.g., bread type, extras).
-- Goal: Allow users to modify items directly from the cart screen.
+Order Screen: Users select sandwiches and add them to their cart.
+Cart Screen: Users view the items in their cart and see the total price.
+I want to implement features that allow users to modify the items in their cart. Here are the features I need, with clear descriptions and expected behaviors:
 
-## Requirements
+1. Change Quantity of an Item
+Description:
+Allow users to increase or decrease the quantity of a specific sandwich in their cart.
 
-### 1) Change Item Quantity
-- Description: Let users increase or decrease the quantity of an item in the cart.
-- UI:
-  - Each cart item shows a quantity control (e.g., “− [quantity] +”).
-  - Disable decrement when quantity is 1 (or prompt to remove).
-- Actions:
-  - On increment: Increase the item’s quantity by 1.
-  - On decrement: Decrease the item’s quantity by 1; if quantity becomes 0, remove the item.
-- State updates:
-  - Update the item’s `quantity` in the cart state.
-  - Recalculate and update the cart subtotal/total.
-- Edge cases:
-  - Prevent negative quantities.
-  - Respect any max quantity rules if applicable.
+Expected Behavior:
 
-### 2) Remove Item
-- Description: Allow users to remove an item entirely from the cart.
-- UI:
-  - Provide a “Remove” button or a swipe-to-delete gesture per item.
-  - Optional confirmation dialog.
-- Actions:
-  - On remove: Delete the item from the cart list.
-- State updates:
-  - Recalculate and update totals.
-  - If cart becomes empty, show the empty cart state (message, CTA to “Add sandwiches”).
+The cart screen should display the current quantity for each item.
+Users can tap "+" to increase or "–" to decrease the quantity.
+If the quantity is decreased to 0, the item should be removed from the cart.
+The total price should update automatically as the quantity changes.
+2. Remove an Item from the Cart
+Description:
+Allow users to remove a sandwich from their cart entirely.
 
-### 3) Edit Item Options (e.g., bread, extras, sauces)
-- Description: Allow users to change the configuration of an existing cart item.
-- UI:
-  - “Edit” button on each item opens an edit modal/screen with the same customization controls used on the order screen.
-- Actions:
-  - On save: Update the item’s `options` and `price` if the configuration changes.
-  - On cancel: Leave the item unchanged.
-- State updates:
-  - Persist the updated options and price in the cart.
-  - Recalculate and update totals.
-- Edge cases:
-  - If the edited options make it identical to another item, either merge items (sum quantities) or keep them separate based on product rules.
+Expected Behavior:
 
-### 4) Clear Cart
-- Description: Allow users to remove all items at once.
-- UI:
-  - “Clear Cart” button at the top or bottom of the cart screen.
-  - Confirmation dialog to prevent accidental clearing.
-- Actions:
-  - On confirm: Empty the cart list.
-- State updates:
-  - Reset totals to 0.
-  - Show empty cart state.
+Each item in the cart should have a "Remove" button (e.g., a trash icon).
+When the user taps "Remove," the item is deleted from the cart.
+The total price updates to reflect the removal.
+3. Edit Item Details (Optional)
+Description:
+Allow users to edit details of a sandwich in their cart (e.g., change bread type, toppings, or size).
 
-### 5) Undo Recent Remove (Optional)
-- Description: Provide a brief undo window after an item removal.
-- UI:
-  - Snackbar/toast with “Item removed” and an “Undo” action.
-- Actions:
-  - On undo: Restore the last removed item to its previous position and quantity/options.
-- State updates:
-  - Recalculate totals accordingly.
+Expected Behavior:
 
-## Technical Details
-- Data model: CartItem { id, name, basePrice, quantity, options, computedPrice }
-- Price calculation:
-  - computedPrice = basePrice + sum(option surcharges)
-  - Line total = computedPrice * quantity
-  - Cart total = sum(all line totals) + taxes/fees if applicable
-- State management:
-  - Use a single source of truth (e.g., Provider, Riverpod, Bloc).
-  - Emit updates so UI reflects quantity, options, and total immediately.
-- Persistence:
-  - Optional: Save cart state locally (e.g., SharedPreferences) to restore after app restart.
-- Accessibility:
-  - Ensure buttons are accessible with screen readers and have adequate hit targets.
-
-## Deliverables
-- Updated cart screen UI with controls for quantity, remove, edit, and clear.
-- Actions wired to state updates with recalculated totals.
-- Unit tests for:
-  - Increment/decrement quantity.
-  - Remove item.
-  - Edit options updates price and merges correctly if required.
-  - Clear cart behavior.
-  - Undo removal (if implemented).
-
-## Acceptance Criteria
-- Users can adjust item quantities, remove items, edit item options, and clear the cart.
-- Totals update immediately and correctly.
-- No negative quantities; empty cart state is handled.
-- Changes persist within the session and are reflected on navigation.
+Each cart item should have an "Edit" button.
+Tapping "Edit" opens a dialog or navigates to a screen where the user can modify the sandwich options.
+After saving changes, the cart updates to reflect the new item details and price.
+General Requirements
+All changes should be reflected immediately in the UI.
+The cart's total price should always be accurate.
+The user should receive feedback (e.g., a snackbar) when an item is removed or updated.
+Please provide Flutter code and UI suggestions to implement these features.
