@@ -91,6 +91,18 @@ class _CartScreenState extends State<CartScreen> {
                             });
                           },
                         ),
+                        const SizedBox(width: 12),
+                        IconButton(
+                          icon: const Icon(Icons.delete_outline),
+                          onPressed: () {
+                            setState(() {
+                              final qty = widget.cart.getQuantity(entry.key);
+                              if (qty > 0) {
+                                widget.cart.remove(entry.key, quantity: qty);
+                              }
+                            });
+                          },
+                        ),
                       ],
                     ),
                     Text(
