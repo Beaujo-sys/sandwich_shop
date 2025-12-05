@@ -43,3 +43,26 @@ Add a "Remove" button for each cart item.
 Ensure the total price and UI update immediately after any change.
 Provide user feedback (snackbar) for remove and update actions.
 Handle empty cart states with a clear message.
+
+5. New Screen: Profile
+
+Feature Prompt
+Create a simple Profile screen where users can enter and view basic details (name and email). No authentication or data persistence is required. The screen should use a form with validation (required fields, basic email format check) and allow users to "Save" to locally update the displayed profile summary within the same screen session.
+
+User Stories
+- As a user, I want to open a Profile screen from the Order screen.
+- As a user, I want to enter my name and email in a form.
+- As a user, I want to see my entered details reflected immediately on the screen after saving.
+
+Acceptance Criteria
+- The Profile screen displays two `TextFormField`s: Name (required) and Email (required, basic email validation).
+- A "Save" button validates inputs. On success, the screen shows a summary: "Name: …" and "Email: …".
+- On validation failure, inline error messages appear below the fields.
+- No real persistence or authentication; data only lives for the current app session.
+- A link/button is added at the bottom of the Order screen to navigate to the Profile screen.
+
+Subtasks
+- Implement Profile screen UI and validation.
+- Add navigation from Order screen to Profile via a button/link.
+- Add a named route for the Profile screen in `main.dart`.
+- Write widget tests to verify form rendering, validation, and that saved values display in the summary.
