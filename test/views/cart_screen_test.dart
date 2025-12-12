@@ -21,6 +21,16 @@ void main() {
       await tester.pumpWidget(app);
 
       expect(find.text('Cart View'), findsOneWidget);
+      // Cart indicator in AppBar
+      final Finder appBarFinder = find.byType(AppBar);
+      expect(
+        find.descendant(of: appBarFinder, matching: find.byIcon(Icons.shopping_cart)),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: appBarFinder, matching: find.text('0')),
+        findsOneWidget,
+      );
       expect(find.text('Your cart is empty.'), findsOneWidget);
       expect(find.text('Total: £0.00'), findsOneWidget);
     });
@@ -44,6 +54,16 @@ void main() {
       await tester.pumpWidget(app);
 
       expect(find.text('Cart View'), findsOneWidget);
+      // Cart indicator should reflect item count
+      final Finder appBarFinder2 = find.byType(AppBar);
+      expect(
+        find.descendant(of: appBarFinder2, matching: find.byIcon(Icons.shopping_cart)),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: appBarFinder2, matching: find.text('2')),
+        findsOneWidget,
+      );
       expect(find.text('Veggie Delight'), findsOneWidget);
       expect(find.text('Footlong on white bread'), findsOneWidget);
       expect(find.text('Qty: 2'), findsOneWidget);
@@ -75,6 +95,16 @@ void main() {
 
       await tester.pumpWidget(app);
 
+      // Cart indicator shows combined quantity
+      final Finder appBarFinder3 = find.byType(AppBar);
+      expect(
+        find.descendant(of: appBarFinder3, matching: find.byIcon(Icons.shopping_cart)),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: appBarFinder3, matching: find.text('4')),
+        findsOneWidget,
+      );
       expect(find.text('Veggie Delight'), findsOneWidget);
       expect(find.text('Chicken Teriyaki'), findsOneWidget);
       expect(find.text('Footlong on white bread'), findsOneWidget);
@@ -186,7 +216,10 @@ void main() {
       cart.add(sandwich, quantity: 2);
 
       final CartScreen cartViewScreen = const CartScreen();
-      final MaterialApp app = MaterialApp(home: cartViewScreen);
+      final Widget app = ChangeNotifierProvider<Cart>(
+        create: (_) => cart,
+        child: MaterialApp(home: cartViewScreen),
+      );
 
       await tester.pumpWidget(app);
 
@@ -203,7 +236,7 @@ void main() {
 
     testWidgets('back button navigates back', (WidgetTester tester) async {
       final Cart cart = Cart();
-      final CartScreen cartViewScreen = CartScreen(cart: cart);
+      final CartScreen cartViewScreen = const CartScreen();
       final Widget app = ChangeNotifierProvider<Cart>(
         create: (_) => cart,
         child: MaterialApp(home: cartViewScreen),

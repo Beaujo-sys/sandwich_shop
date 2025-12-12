@@ -21,6 +21,17 @@ void main() {
 
       expect(find.text('Sandwich Counter'), findsOneWidget);
 
+      // Cart indicator in AppBar
+      final Finder appBarFinder = find.byType(AppBar);
+      expect(
+        find.descendant(of: appBarFinder, matching: find.byIcon(Icons.shopping_cart)),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: appBarFinder, matching: find.text('0')),
+        findsOneWidget,
+      );
+
       expect(find.byType(Image), findsNWidgets(2));
 
       expect(find.text('Veggie Delight'), findsWidgets);
