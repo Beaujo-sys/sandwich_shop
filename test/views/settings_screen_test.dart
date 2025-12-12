@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sandwich_shop/views/settings_screen.dart';
 import 'package:sandwich_shop/views/app_styles.dart';
+import 'package:provider/provider.dart';
+import 'package:sandwich_shop/models/cart.dart';
 
 void main() {
 	group('SettingsScreen', () {
@@ -13,7 +15,12 @@ void main() {
 		});
 
 		testWidgets('loads with default font size and shows UI', (WidgetTester tester) async {
-			await tester.pumpWidget(const MaterialApp(home: SettingsScreen()));
+			await tester.pumpWidget(
+				ChangeNotifierProvider<Cart>(
+					create: (_) => Cart(),
+					child: const MaterialApp(home: SettingsScreen()),
+				),
+			);
 
 			// Initial state shows loading indicator, then settles to UI
 			expect(find.byType(CircularProgressIndicator), findsOneWidget);
@@ -33,7 +40,12 @@ void main() {
 		});
 
 		testWidgets('changing slider saves and updates font size', (WidgetTester tester) async {
-			await tester.pumpWidget(const MaterialApp(home: SettingsScreen()));
+			await tester.pumpWidget(
+				ChangeNotifierProvider<Cart>(
+					create: (_) => Cart(),
+					child: const MaterialApp(home: SettingsScreen()),
+				),
+			);
 			await tester.pumpAndSettle();
 
 			// Get slider and change value to 20
@@ -49,7 +61,12 @@ void main() {
 		});
 
 		testWidgets('font size persists across app restarts', (WidgetTester tester) async {
-			await tester.pumpWidget(const MaterialApp(home: SettingsScreen()));
+			await tester.pumpWidget(
+				ChangeNotifierProvider<Cart>(
+					create: (_) => Cart(),
+					child: const MaterialApp(home: SettingsScreen()),
+				),
+			);
 			await tester.pumpAndSettle();
 
 			// Change to 24
@@ -59,7 +76,12 @@ void main() {
 			expect(find.text('Current size: 24px'), findsOneWidget);
 
 			// Simulate app restart by rebuilding a new SettingsScreen
-			await tester.pumpWidget(const MaterialApp(home: SettingsScreen()));
+			await tester.pumpWidget(
+				ChangeNotifierProvider<Cart>(
+					create: (_) => Cart(),
+					child: const MaterialApp(home: SettingsScreen()),
+				),
+			);
 			await tester.pumpAndSettle();
 
 			// New instance should read persisted value
