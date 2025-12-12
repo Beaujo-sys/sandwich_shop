@@ -5,6 +5,7 @@ import 'package:sandwich_shop/models/sandwich.dart';
 import 'package:provider/provider.dart';
 import 'package:sandwich_shop/models/cart.dart';
 import 'package:sandwich_shop/views/styled_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void dummyFunction() {}
 
@@ -329,6 +330,33 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Cart View'), findsOneWidget);
+    });
+
+    testWidgets('navigates to Settings screen when Settings button is tapped',
+        (WidgetTester tester) async {
+      // Ensure SharedPreferences is available for SettingsScreen async load
+      SharedPreferences.setMockInitialValues(<String, Object>{});
+      const OrderScreen orderScreen = OrderScreen();
+      final Widget app = ChangeNotifierProvider<Cart>(
+        create: (_) => Cart(),
+        child: const MaterialApp(home: orderScreen),
+      );
+      await tester.pumpWidget(app);
+
+      final Finder settingsButtonFinder =
+          find.widgetWithText(StyledButton, 'Settings');
+      expect(settingsButtonFinder, findsOneWidget);
+
+      await tester.ensureVisible(settingsButtonFinder);
+      await tester.pumpAndSettle();
+      await tester.tap(settingsButtonFinder);
+      // First frame: Settings shows a CircularProgressIndicator
+      await tester.pump();
+      // Let async load complete and settle
+      await tester.pumpAndSettle(const Duration(seconds: 5));
+
+      expect(find.text('Settings'), findsOneWidget);
+      expect(find.text('Font Size'), findsOneWidget);
     });
   });
 
