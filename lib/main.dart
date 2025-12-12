@@ -27,3 +27,9 @@ class App extends StatelessWidget {
     );
   }
 }
+
+
+
+// cd .\build\web
+// python -m http.server 8000
+// then open http://localhost:8000

@@ -68,6 +68,31 @@ flutter pub get
 flutter run
 ```
 
+## Web Release Build
+
+To build a production (release) version of the app for the web and serve it locally, use the Flutter tool and a simple static server. From the project root run the following PowerShell commands:
+
+```powershell
+Set-Location -Path .\sandwich_shop
+flutter clean
+flutter pub get
+flutter build web --release
+# Serve the built files locally (simple Python server shown below). Change to the build output folder:
+Set-Location -Path .\build\web
+# If you have Python installed, run:
+python -m http.server 8000
+# Or use PowerShell's built-in web server (PowerShell 5.1):
+# (starts an HTTP listener on port 8000)
+# Add-Type -AssemblyName System.Net.HttpListener; $listener = New-Object System.Net.HttpListener; $listener.Prefixes.Add('http://*:8000/'); $listener.Start(); Write-Host 'Serving on http://localhost:8000'; while ($listener.IsListening) { $ctx = $listener.GetContext(); $resp = $ctx.Response; $path = $ctx.Request.RawUrl.TrimStart('/') -replace '\\','/'; if ([string]::IsNullOrEmpty($path)) { $path = 'index.html' }; $file = Join-Path (Get-Location) $path; if (Test-Path $file) { $bytes = [System.IO.File]::ReadAllBytes($file); $resp.ContentLength64 = $bytes.Length; $resp.OutputStream.Write($bytes,0,$bytes.Length) } else { $resp.StatusCode = 404 }; $resp.Close() }
+
+```
+
+Notes:
+- `flutter build web --release` outputs optimized static files to `./build/web/`.
+- Use `python -m http.server` (Python 3) for a quick local server, or any static file server (nginx, Caddy, http-server from npm, etc.).
+- Serving files directly from the `build/web` directory simulates how the app will behave when deployed to a static host (GitHub Pages, Netlify, Firebase Hosting, S3 + CloudFront, etc.).
+- When deploying, upload the contents of `build/web/` to your hosting provider and configure the host for single-page-app (SPA) routing if needed (redirect unknown routes to `index.html`).
+
 ## Get support
 
 Use [the dedicated Discord channel](https://discord.com/channels/760155974467059762/1370633732779933806)
