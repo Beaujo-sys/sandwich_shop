@@ -22,7 +22,7 @@ class CartIndicator extends StatelessWidget {
     );
   }
 }
-
+//applies heading1 text style and includes logo and cart indicator
 class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final List<Widget>? actions;
@@ -53,7 +53,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 }
-
+//applies heading2 text style
 class SectionTitle extends StatelessWidget {
   final String text;
   final TextAlign? textAlign;
@@ -64,7 +64,7 @@ class SectionTitle extends StatelessWidget {
     return Text(text, style: heading2, textAlign: textAlign);
   }
 }
-
+//applies small text style
 class NormalLabel extends StatelessWidget {
   final String text;
   final TextAlign? textAlign;
@@ -75,7 +75,7 @@ class NormalLabel extends StatelessWidget {
     return Text(text, style: normalText, textAlign: textAlign);
   }
 }
-
+//spacer with customizable height and width
 class SizedSpacer extends StatelessWidget {
   final double height;
   final double width;
