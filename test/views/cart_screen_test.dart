@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sandwich_shop/views/cart_screen.dart';
-import 'package:sandwich_shop/views/order_screen.dart';
+// Removed unused order_screen import
 import 'package:sandwich_shop/models/cart.dart';
 import 'package:sandwich_shop/models/sandwich.dart';
+import 'package:provider/provider.dart';
+import 'package:sandwich_shop/views/styled_button.dart';
 
 void main() {
   group('CartScreen', () {
     testWidgets('displays empty cart message when cart is empty',
         (WidgetTester tester) async {
       final Cart emptyCart = Cart();
-      final CartScreen cartViewScreen = CartScreen(cart: emptyCart);
-      final MaterialApp app = MaterialApp(home: cartViewScreen);
+      final CartScreen cartViewScreen = const CartScreen();
+      final Widget app = ChangeNotifierProvider<Cart>(
+        create: (_) => emptyCart,
+        child: MaterialApp(home: cartViewScreen),
+      );
 
       await tester.pumpWidget(app);
 
@@ -30,8 +35,11 @@ void main() {
       );
       cart.add(sandwich, quantity: 2);
 
-      final CartScreen cartViewScreen = CartScreen(cart: cart);
-      final MaterialApp app = MaterialApp(home: cartViewScreen);
+      final CartScreen cartViewScreen = const CartScreen();
+      final Widget app = ChangeNotifierProvider<Cart>(
+        create: (_) => cart,
+        child: MaterialApp(home: cartViewScreen),
+      );
 
       await tester.pumpWidget(app);
 
@@ -59,8 +67,11 @@ void main() {
       cart.add(sandwich1, quantity: 1);
       cart.add(sandwich2, quantity: 3);
 
-      final CartScreen cartViewScreen = CartScreen(cart: cart);
-      final MaterialApp app = MaterialApp(home: cartViewScreen);
+      final CartScreen cartViewScreen = const CartScreen();
+      final Widget app = ChangeNotifierProvider<Cart>(
+        create: (_) => cart,
+        child: MaterialApp(home: cartViewScreen),
+      );
 
       await tester.pumpWidget(app);
 
@@ -83,8 +94,11 @@ void main() {
       );
       cart.add(sandwich, quantity: 1);
 
-      final CartScreen cartViewScreen = CartScreen(cart: cart);
-      final MaterialApp app = MaterialApp(home: cartViewScreen);
+      final CartScreen cartViewScreen = const CartScreen();
+      final Widget app = ChangeNotifierProvider<Cart>(
+        create: (_) => cart,
+        child: MaterialApp(home: cartViewScreen),
+      );
 
       await tester.pumpWidget(app);
 
@@ -94,8 +108,11 @@ void main() {
     testWidgets('hides checkout button when cart is empty',
         (WidgetTester tester) async {
       final Cart emptyCart = Cart();
-      final CartScreen cartViewScreen = CartScreen(cart: emptyCart);
-      final MaterialApp app = MaterialApp(home: cartViewScreen);
+      final CartScreen cartViewScreen = const CartScreen();
+      final Widget app = ChangeNotifierProvider<Cart>(
+        create: (_) => emptyCart,
+        child: MaterialApp(home: cartViewScreen),
+      );
 
       await tester.pumpWidget(app);
 
@@ -112,8 +129,11 @@ void main() {
       );
       cart.add(sandwich, quantity: 1);
 
-      final CartScreen cartViewScreen = CartScreen(cart: cart);
-      final MaterialApp app = MaterialApp(home: cartViewScreen);
+      final CartScreen cartViewScreen = const CartScreen();
+      final Widget app = ChangeNotifierProvider<Cart>(
+        create: (_) => cart,
+        child: MaterialApp(home: cartViewScreen),
+      );
 
       await tester.pumpWidget(app);
 
@@ -137,8 +157,11 @@ void main() {
       );
       cart.add(sandwich, quantity: 2);
 
-      final CartScreen cartViewScreen = CartScreen(cart: cart);
-      final MaterialApp app = MaterialApp(home: cartViewScreen);
+      final CartScreen cartViewScreen = const CartScreen();
+      final Widget app = ChangeNotifierProvider<Cart>(
+        create: (_) => cart,
+        child: MaterialApp(home: cartViewScreen),
+      );
 
       await tester.pumpWidget(app);
 
@@ -162,7 +185,7 @@ void main() {
       );
       cart.add(sandwich, quantity: 2);
 
-      final CartScreen cartViewScreen = CartScreen(cart: cart);
+      final CartScreen cartViewScreen = const CartScreen();
       final MaterialApp app = MaterialApp(home: cartViewScreen);
 
       await tester.pumpWidget(app);
@@ -181,7 +204,10 @@ void main() {
     testWidgets('back button navigates back', (WidgetTester tester) async {
       final Cart cart = Cart();
       final CartScreen cartViewScreen = CartScreen(cart: cart);
-      final MaterialApp app = MaterialApp(home: cartViewScreen);
+      final Widget app = ChangeNotifierProvider<Cart>(
+        create: (_) => cart,
+        child: MaterialApp(home: cartViewScreen),
+      );
 
       await tester.pumpWidget(app);
 
