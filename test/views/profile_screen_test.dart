@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sandwich_shop/views/profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sandwich_shop/models/cart.dart';
+import 'package:sandwich_shop/views/styled_button.dart';
 
 void main() {
   group('ProfileScreen', () {
@@ -23,6 +24,7 @@ void main() {
       expect(find.text('Your Name'), findsOneWidget);
       expect(find.text('Preferred Location'), findsOneWidget);
       expect(find.text('Save Profile'), findsOneWidget);
+      expect(find.widgetWithText(StyledButton, 'Back to Order'), findsOneWidget);
       expect(find.byType(TextField), findsNWidgets(2));
       expect(find.byType(ElevatedButton), findsOneWidget);
     });
@@ -40,6 +42,7 @@ void main() {
       expect(find.byType(AppBar), findsOneWidget);
       expect(find.byType(Column), findsOneWidget);
       expect(find.byType(SizedBox), findsWidgets);
+      expect(find.widgetWithText(StyledButton, 'Back to Order'), findsOneWidget);
     });
 
     testWidgets('text fields accept input correctly',
@@ -366,6 +369,43 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Please fill in all fields'), findsOneWidget);
+    });
+
+    testWidgets('Back to Order button pops the screen', (WidgetTester tester) async {
+      const ProfileScreen profileScreen = ProfileScreen();
+      final Widget app = ChangeNotifierProvider<Cart>(
+        create: (_) => Cart(),
+        child: MaterialApp(
+          home: Builder(
+            builder: (BuildContext context) {
+              return ElevatedButton(
+                onPressed: () async {
+                  await Navigator.push<void>(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => profileScreen,
+                    ),
+                  );
+                },
+                child: const Text('Go'),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.pumpWidget(app);
+      await tester.tap(find.text('Go'));
+      await tester.pumpAndSettle();
+
+      // Ensure button exists and tap to pop
+      final Finder backButton = find.widgetWithText(StyledButton, 'Back to Order');
+      expect(backButton, findsOneWidget);
+      await tester.tap(backButton);
+      await tester.pumpAndSettle();
+
+      // We should be back on the initial button screen
+      expect(find.text('Go'), findsOneWidget);
     });
   });
 }

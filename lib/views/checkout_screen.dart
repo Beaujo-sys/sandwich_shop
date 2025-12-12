@@ -1,9 +1,10 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandwich_shop/views/app_styles.dart';
-import 'package:sandwich_shop/views/widgets/app_header.dart';
+import 'package:sandwich_shop/views/common_widgets.dart';
+import 'package:sandwich_shop/views/styled_button.dart';
 import 'package:sandwich_shop/models/cart.dart';
 import 'package:sandwich_shop/models/sandwich.dart';
 import 'package:sandwich_shop/repositories/pricing_repository.dart';
@@ -51,15 +52,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppHeader(title: 'Checkout'),
+      appBar: AppHeader(title: 'Checkout'),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Consumer<Cart>(
           builder: (context, cart, child) {
-            List<Widget> columnChildren = [];
+                List<Widget> columnChildren = [];
 
-            columnChildren.add(Text('Order Summary', style: heading2));
-            columnChildren.add(const SizedBox(height: 20));
+                columnChildren.add(const SectionTitle('Order Summary'));
+                columnChildren.add(const SizedSpacer(height: 20));
 
             for (MapEntry<Sandwich, int> entry in cart.items.entries) {
               final Sandwich sandwich = entry.key;
@@ -81,16 +82,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               );
 
               columnChildren.add(itemRow);
-              columnChildren.add(const SizedBox(height: 8));
+                  columnChildren.add(const SizedSpacer(height: 8));
             }
 
             columnChildren.add(const Divider());
-            columnChildren.add(const SizedBox(height: 10));
+                columnChildren.add(const SizedSpacer(height: 10));
 
             final Widget totalRow = Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Total:', style: heading2),
+                    const SectionTitle('Total:'),
                 Text(
                   '£${cart.totalPrice.toStringAsFixed(2)}',
                   style: heading2,
@@ -98,7 +99,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               ],
             );
             columnChildren.add(totalRow);
-            columnChildren.add(const SizedBox(height: 40));
+                columnChildren.add(const SizedSpacer(height: 40));
 
             columnChildren.add(
               Text(
@@ -107,7 +108,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 textAlign: TextAlign.center,
               ),
             );
-            columnChildren.add(const SizedBox(height: 20));
+                columnChildren.add(const SizedSpacer(height: 20));
 
             if (_isProcessing) {
               columnChildren.add(
@@ -115,7 +116,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   child: CircularProgressIndicator(),
                 ),
               );
-              columnChildren.add(const SizedBox(height: 20));
+                  columnChildren.add(const SizedSpacer(height: 20));
               columnChildren.add(
                 Text(
                   'Processing payment...',
@@ -128,6 +129,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ElevatedButton(
                   onPressed: _processPayment,
                   child: Text('Confirm Payment', style: normalText),
+                ),
+              );
+              columnChildren.add(const SizedSpacer(height: 20));
+              columnChildren.add(
+                StyledButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: Icons.arrow_back,
+                  label: 'Back to Order',
+                  backgroundColor: Colors.grey,
                 ),
               );
             }

@@ -1,6 +1,8 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:sandwich_shop/views/app_styles.dart';
-import 'package:sandwich_shop/views/widgets/app_header.dart';
+import 'package:sandwich_shop/views/common_widgets.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -45,7 +47,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
 
     return Scaffold(
-      appBar: const AppHeader(title: 'Settings'),
+      appBar: AppHeader(title: 'Settings'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

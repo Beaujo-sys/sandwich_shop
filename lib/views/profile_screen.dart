@@ -1,6 +1,9 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:sandwich_shop/views/app_styles.dart';
-import 'package:sandwich_shop/views/widgets/app_header.dart';
+import 'package:sandwich_shop/views/common_widgets.dart';
+import 'package:sandwich_shop/views/styled_button.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -54,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
 Widget build(BuildContext context) {
   return Scaffold(
-    appBar: const AppHeader(title: 'Profile'),
+    appBar: AppHeader(title: 'Profile'),
     body: Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -81,6 +84,13 @@ Widget build(BuildContext context) {
           ElevatedButton(
             onPressed: _saveProfile,
             child: const Text('Save Profile'),
+          ),
+          const SizedBox(height: 20),
+          StyledButton(
+            onPressed: () => Navigator.pop(context),
+            icon: Icons.arrow_back,
+            label: 'Back to Order',
+            backgroundColor: Colors.grey,
           ),
         ],
       ),

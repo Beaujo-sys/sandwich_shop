@@ -1,8 +1,10 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:sandwich_shop/views/app_styles.dart';
 import 'package:provider/provider.dart';
 import 'package:sandwich_shop/views/styled_button.dart';
-import 'package:sandwich_shop/views/widgets/app_header.dart';
+import 'package:sandwich_shop/views/common_widgets.dart';
 import 'package:sandwich_shop/views/cart_screen.dart';
 import 'package:sandwich_shop/models/cart.dart';
 import 'package:sandwich_shop/models/sandwich.dart';
@@ -156,7 +158,7 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppHeader(title: 'Sandwich Counter'),
+      appBar: AppHeader(title: 'Sandwich Counter'),
       body: Center(
         child: SingleChildScrollView(
           child: Column(

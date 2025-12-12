@@ -1,8 +1,10 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandwich_shop/views/app_styles.dart';
 import 'package:sandwich_shop/views/styled_button.dart';
-import 'package:sandwich_shop/views/widgets/app_header.dart';
+import 'package:sandwich_shop/views/common_widgets.dart';
 import 'package:sandwich_shop/models/cart.dart';
 import 'package:sandwich_shop/models/sandwich.dart';
 import 'package:sandwich_shop/repositories/pricing_repository.dart';
@@ -107,7 +109,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppHeader(title: 'Cart View'),
+      appBar: AppHeader(title: 'Cart View'),
       body: Center(
         child: SingleChildScrollView(
           child: Consumer<Cart>(
@@ -115,13 +117,9 @@ class _CartScreenState extends State<CartScreen> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const SizedBox(height: 20),
+                  const SizedSpacer(height: 20),
                   if (cart.items.isEmpty)
-                    Text(
-                      'Your cart is empty.',
-                      style: heading2,
-                      textAlign: TextAlign.center,
-                    )
+                    const SectionTitle('Your cart is empty.', textAlign: TextAlign.center)
                   else
                     for (MapEntry<Sandwich, int> entry in cart.items.entries)
                       Column(
@@ -158,15 +156,11 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 20),
+                          const SizedSpacer(height: 20),
                         ],
                       ),
-                  Text(
-                    'Total: £${cart.totalPrice.toStringAsFixed(2)}',
-                    style: heading2,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 20),
+                  SectionTitle('Total: £${cart.totalPrice.toStringAsFixed(2)}', textAlign: TextAlign.center),
+                  const SizedSpacer(height: 20),
                   Builder(
                     builder: (BuildContext context) {
                       final bool cartHasItems = cart.items.isNotEmpty;
@@ -182,14 +176,14 @@ class _CartScreenState extends State<CartScreen> {
                       }
                     },
                   ),
-                  const SizedBox(height: 20),
+                  const SizedSpacer(height: 20),
                   StyledButton(
                     onPressed: () => Navigator.pop(context),
                     icon: Icons.arrow_back,
                     label: 'Back to Order',
                     backgroundColor: Colors.grey,
                   ),
-                  const SizedBox(height: 20),
+                  const SizedSpacer(height: 20),
                 ],
               );
             },
